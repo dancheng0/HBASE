@@ -40,6 +40,31 @@ public class HBaseUtil {
         }
     }
 
+
+    /**
+     * 获取HBase中的表
+     * */
+    public static void listTable() throws IOException {
+        Connection conn = connHolder.get();
+        Admin admin = conn.getAdmin();
+        TableName[] tableNames = admin.listTableNames();
+        for (TableName tableName : tableNames) {
+            System.out.println(tableName);
+        }
+    }
+
+    /**
+     * 获取HBase中某个命名空间下的表
+     * */
+    public static void listTableWithNameSpace(String nameSpace) throws IOException {
+        Connection conn = connHolder.get();
+        Admin admin = conn.getAdmin();
+        TableName[] ts = admin.listTableNamesByNamespace(nameSpace);
+        for (TableName tableName : ts) {
+            System.out.println(tableName.getNameWithNamespaceInclAsString());
+        }
+    }
+
     /**
      * 创建命名空间
      * @param nameSpace
@@ -85,7 +110,18 @@ public class HBaseUtil {
         }
     }
 
-
+    /**
+     * 添加列族
+     * @param tableName
+     * @throws IOException
+     */
+    public static void createColumn(String tableName) throws IOException {
+        Connection conn = connHolder.get();
+        Admin admin = conn.getAdmin();
+        HColumnDescriptor hColumnDescriptor = new HColumnDescriptor(Bytes.toBytes("cf1"));
+        admin.addColumn(TableName.valueOf(tableName), hColumnDescriptor);
+    }
+    
 
     /**
      * 插入数据
