@@ -8,3 +8,7 @@
 *.iml
 out
 gen
+.gitignore
+src/main/resources/
+src/test/
+target/

@@ -34,7 +34,7 @@ public class TestHbaseApi_1 {
         if (namespace == null) {
              admin.createNamespace(namespace);
         }
-        TableName tableName = TableName.valueOf("ns1:2");
+        TableName tableName = TableName.valueOf("ns1:student");
         boolean flag = admin.tableExists(tableName);
         System.out.println(flag);
         if (flag) {
@@ -71,6 +71,7 @@ public class TestHbaseApi_1 {
 
             //创建表描述对象
             HTableDescriptor hTableDescriptor = new HTableDescriptor(tableName);
+            hTableDescriptor.addCoprocessor("com.muye.hbase.InsertStudentCorprocesser");
 
             //增加列族
             HColumnDescriptor hColumnDescriptor = new HColumnDescriptor("info");
